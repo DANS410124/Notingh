@@ -52,75 +52,88 @@ local Button = MainTab:CreateButton({
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-186, 311, -301)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Firebrand",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-191, 348, -157)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Linked Sword (float)",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(13, 101, 12)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Illumina",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434, 390, 68)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Sky Dagger",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(212, 141, 326)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Rusty Illumina",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(257, 138, 345)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Windforce",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(121, 637, -302)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Ghostwalker",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 20, 112)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "ice Dagger",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38, 251, 326)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Darkheart",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-156, 61, 211)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Hyacinth",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-303, 275, -66)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Venomshank",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(220, 222, 47)
    end,
+})
 
 local Button = MainTab:CreateButton({
    Name = "Voidcaller",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-54, 140, 309)
-   end, 
+   end,
+})
