@@ -1,0 +1,126 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "  ❗Sword Fights on the Heights",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "N-E hub",
+   LoadingSubtitle = "por DANICRAFT07070 en roblox",
+   ShowText = "Dansss", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "AmberGlow", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "N-E hub"
+   },
+
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+
+   KeySystem = true, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "N-E hub | key",
+      Subtitle = "link en el discord",
+      Note = "unete al server para la key :b", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+local MainTab = Window:CreateTab("Teleports 📍", nil) -- Title, Image
+local MainSection = MainTab:CreateSection("espadas 🗡️")
+
+Rayfield:Notify({
+   Title = "disfruta este script",
+   Content = "@ en youtube!",
+   Duration = 4,
+   Image = nil,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Earthsplitter",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-186, 311, -301)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Firebrand",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-191, 348, -157)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Linked Sword (float)",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(13, 101, 12)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Illumina",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434, 390, 68)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Sky Dagger",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(212, 141, 326)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Rusty Illumina",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(257, 138, 345)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Windforce",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(121, 637, -302)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Ghostwalker",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 20, 112)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "ice Dagger",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38, 251, 326)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Darkheart",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-156, 61, 211)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Hyacinth",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-303, 275, -66)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Venomshank",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(220, 222, 47)
+   end,
+
+local Button = MainTab:CreateButton({
+   Name = "Voidcaller",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-54, 140, 309)
+   end, 
