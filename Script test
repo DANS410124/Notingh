@@ -37,6 +37,34 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
+local MiscTab = Window:CreateTab("misc ✴️", nil) -- Title, Image
+local MiscSection = MiscTab:CreateSection("player ❄️")
+
+local Slider = MiscTab:CreateSlider({
+   Name = "velocidad",
+   Range = {0, 300},
+   Increment = 1,
+   Suffix = "speed",
+   CurrentValue = 16,
+   Flag = "Slider1", 
+   Callback = function(Value)
+   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
+    end,
+})
+
+local Slider = MiscTab:CreateSlider({
+   Name = "salto",
+   Range = {0, 300},
+   Increment = 1,
+   Suffix = "jump",
+   CurrentValue = 50,
+   Flag = "Slider2", 
+   Callback = function(Value)
+   game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
+    end,
+})
+
+
 local MainTab = Window:CreateTab("Teleports 📍", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("espadas 🗡️")
 
@@ -137,3 +165,192 @@ local Button = MainTab:CreateButton({
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-54, 140, 309)
    end,
 })
+
+local PlacesSection = MainTab:CreateSection("lugares ⛰️")
+
+local Button = MainTab:CreateButton({
+   Name = "zona 'segura' 1 ",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(161.999985, 686.400024, 143.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "zona 'segura' 2",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 502.000031, -10.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local utilsSection = MainTab:CreateSection("utilidades ⚒️")
+
+local Button = MainTab:CreateButton({
+   Name = "Blattleshield",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 284.800049, -134, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Blattleshield 2",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(20.9999962, 156.399994, 216, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Bloxy cola",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38, 135.800018, 318.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Shadowsphere",
+   Callback = function()
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-167.000015, 469.000061, 254.499985, 1, 0, 0, 0, 0, -1, 0, 1, 0)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Medikit",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(132, 340.0896, 87.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Shieldsphere",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(176, 137.788834, 201.5, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Slateskin",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(121.5, 60.2000122, -264, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "TouchStone",
+   Callback = function()
+  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-176, 275, -77)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "Jet boots",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(141, 466, -127)
+   end,
+})
+
+local visuTab = Window:CreateTab("visuales 👁️", nil) -- Title, Image
+local MainSection = visuTab:CreateSection("esp ☄️")
+
+local Toggle = visuTab:CreateToggle({
+    Name = "esp",
+    CurrentValue = false,
+    Flag = "BlueHighlight",
+    Callback = function(Value)
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+
+        -- Tablas para guardar lo creado
+        local playerHighlights = {}
+        local connections = {}
+
+        -- Función para eliminar todo
+        local function clearAll()
+            -- Desconectar eventos
+            for _, conn in ipairs(connections) do
+                conn:Disconnect()
+            end
+            connections = {}
+
+            -- Borrar highlights y textos de todos los jugadores
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player.Character then
+                    for _, obj in ipairs(player.Character:GetChildren()) do
+                        if obj:IsA("Highlight") or obj:IsA("BillboardGui") then
+                            obj:Destroy()
+                        end
+                    end
+                end
+            end
+
+            playerHighlights = {}
+        end
+
+        -- Si el toggle se apaga, limpiamos y salimos
+        if not Value then
+            clearAll()
+            return
+        end
+
+        -- Función para crear el highlight
+        local function createHighlight(player)
+            local character = player.Character or player.CharacterAdded:Wait()
+
+            -- Evitar duplicados
+            for _, obj in ipairs(character:GetChildren()) do
+                if obj:IsA("Highlight") or obj:IsA("BillboardGui") then
+                    obj:Destroy()
+                end
+            end
+
+            local highlight = Instance.new("Highlight")
+            highlight.FillTransparency = 0.5
+            highlight.OutlineColor = Color3.new(1, 1, 1)
+            highlight.OutlineTransparency = 0
+            highlight.FillColor = Color3.new(0, 0, 1)
+            highlight.Adornee = character
+            highlight.Parent = character
+            playerHighlights[player] = highlight
+
+            -- Texto
+            local billboardGui = Instance.new("BillboardGui")
+            billboardGui.Size = UDim2.new(2, 0, 1, 0)
+            billboardGui.StudsOffset = Vector3.new(0, 5, 0)
+            billboardGui.AlwaysOnTop = true
+            billboardGui.Parent = character
+
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Size = UDim2.new(7, 0, 7, 0)
+            textLabel.BackgroundTransparency = 1
+            textLabel.TextColor3 = Color3.new(1, 1, 1)
+            textLabel.TextScaled = true
+            textLabel.Font = Enum.Font.SourceSansBold
+            textLabel.TextSize = 48
+            textLabel.Parent = billboardGui
+
+            -- Conexión para actualizar texto
+            table.insert(connections, RunService.Heartbeat:Connect(function()
+                if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+                    local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+                    textLabel.Text = "@" .. player.Name .. " | " .. math.floor(humanoid.Health)
+                end
+            end))
+        end
+
+        -- Crear para jugadores existentes
+        for _, p in ipairs(Players:GetPlayers()) do
+            createHighlight(p)
+        end
+
+        -- Evento cuando entra un jugador
+        table.insert(connections, Players.PlayerAdded:Connect(function(p)
+            createHighlight(p)
+        end))
+
+        -- Evento cuando respawnea
+        for _, p in ipairs(Players:GetPlayers()) do
+            table.insert(connections, p.CharacterAdded:Connect(function()
+                createHighlight(p)
+            end))
+        end
+    end,
+})
+
