@@ -628,7 +628,7 @@ end)
 local FollowConnection = nil
 local SavedCFrame = nil
 
-local Toggle = Tab:CreateToggle({
+local Toggle = farTab:CreateToggle({
     Name = "Seguir Jugador",
     CurrentValue = false,
     Flag = "FollowToggle",
