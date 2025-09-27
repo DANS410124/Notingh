@@ -353,6 +353,61 @@ local Button = MainTab:CreateButton({
    end,
 })
 
+local Section = MiscTab:CreateSection("anti-vacio")
+
+local Toggle = MiscTab:CreateToggle({
+    Name = "anti-void",
+    CurrentValue = false,
+    Flag = "TeleporterToggle",
+    Callback = function(Value)
+        if Value then
+            -- Variables y creación dentro del callback
+            local part = Instance.new("Part")
+            part.Size = Vector3.new(5000, 10, 5000)  -- 5000x10x5000
+            part.Position = Vector3.new(0, 10, 0)  -- Posición
+            part.Anchored = true
+            part.CanCollide = false
+            part.Transparency = 0
+            part.BrickColor = BrickColor.new("Bright red")
+            part.Parent = workspace
+
+            -- Destino del TP
+            local targetPosition = Vector3.new(37, 98, -14)
+
+            -- Función de teletransporte
+            local function onTouch(hit)
+                local character = hit.Parent
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+                if humanoid then
+                    local rootPart = character:FindFirstChild("HumanoidRootPart")
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(targetPosition)
+                    end
+                end
+            end
+
+            -- Conectar evento
+            local connection = part.Touched:Connect(onTouch)
+
+            -- Guardar referencias para apagar después
+            TogglePart = part
+            ToggleConnection = connection
+
+        else
+            -- Si existe, desconectar y eliminar la parte
+            if ToggleConnection then
+                ToggleConnection:Disconnect()
+                ToggleConnection = nil
+            end
+            if TogglePart then
+                TogglePart:Destroy()
+                TogglePart = nil
+            end
+        end
+    end,
+ })
+
 local visuTab = Window:CreateTab("visuales 👁️", nil) -- Title, Image
 local MainSection = visuTab:CreateSection("esp ☄️")
 
@@ -504,61 +559,6 @@ local Toggle = visuTab:CreateToggle({
                 Toggle._tracerData.folder:ClearAllChildren()
                 Toggle._tracerData.folder:Destroy()
                 Toggle._tracerData = nil
-            end
-        end
-    end,
-})
-
-local Section = MiscTab:CreateSection("anti-vacio")
-
-local Toggle = MiscTab:CreateToggle({
-    Name = "anti-void",
-    CurrentValue = false,
-    Flag = "TeleporterToggle",
-    Callback = function(Value)
-        if Value then
-            -- Variables y creación dentro del callback
-            local part = Instance.new("Part")
-            part.Size = Vector3.new(5000, 10, 5000)  -- 5000x10x5000
-            part.Position = Vector3.new(0, 10, 0)  -- Posición
-            part.Anchored = true
-            part.CanCollide = false
-            part.Transparency = 0
-            part.BrickColor = BrickColor.new("Bright red")
-            part.Parent = workspace
-
-            -- Destino del TP
-            local targetPosition = Vector3.new(37, 98, -14)
-
-            -- Función de teletransporte
-            local function onTouch(hit)
-                local character = hit.Parent
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-
-                if humanoid then
-                    local rootPart = character:FindFirstChild("HumanoidRootPart")
-                    if rootPart then
-                        rootPart.CFrame = CFrame.new(targetPosition)
-                    end
-                end
-            end
-
-            -- Conectar evento
-            local connection = part.Touched:Connect(onTouch)
-
-            -- Guardar referencias para apagar después
-            TogglePart = part
-            ToggleConnection = connection
-
-        else
-            -- Si existe, desconectar y eliminar la parte
-            if ToggleConnection then
-                ToggleConnection:Disconnect()
-                ToggleConnection = nil
-            end
-            if TogglePart then
-                TogglePart:Destroy()
-                TogglePart = nil
             end
         end
     end,
