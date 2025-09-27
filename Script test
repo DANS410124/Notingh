@@ -33,7 +33,7 @@ local Window = Rayfield:CreateWindow({
       FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+      Key = {"a"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
 
@@ -64,6 +64,98 @@ local Slider = MiscTab:CreateSlider({
     end,
 })
 
+local reaSection = MiscTab:CreateSection("reach ⏹️")
+
+local hitboxSize = 30
+local hitboxActive = false
+local hitboxColor = Color3.fromRGB(0, 0, 255)
+
+local player = game:GetService("Players").LocalPlayer
+player.CharacterAdded:Connect(function(char)
+    ModifyHitbox(hitboxSize)
+end)
+
+local function ModifyHitbox(size)
+    local player = game:GetService("Players").LocalPlayer
+    local char = player.Character
+    if not char then return end
+
+    local tool = nil
+    for _, v in pairs(char:GetChildren()) do
+        if v:IsA("Tool") then
+            tool = v
+            break
+        end
+    end
+
+    if not tool then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Need Tool";
+            Text = "Need Tool";
+            Duration = 5;
+        })
+        return
+    end
+
+    hitboxActive = size > 1
+
+    if hitboxActive then
+        local handle = tool:FindFirstChild("Handle")
+        if handle then
+            handle.Massless = true
+            handle.Transparency = 1
+            handle.Size = Vector3.new(size, size, size)
+
+            local selectionBox = Instance.new("SelectionBox", handle)
+            selectionBox.Adornee = handle
+            selectionBox.Color3 = hitboxColor -- Color verde fijo
+
+
+            spawn(function()
+                while hitboxActive do
+                    wait(0.5)
+                end
+                selectionBox:Destroy()
+            end)
+        end
+    else
+        if tool and tool:FindFirstChild("Handle") then
+            local handle = tool.Handle
+            handle.Size = Vector3.new(1, 1, 1)
+            for _, v in pairs(handle:GetChildren()) do
+                if v:IsA("SelectionBox") then
+                    v:Destroy()
+                end
+            end
+        end
+    end
+end
+
+MiscTab:CreateButton({
+    Name = "Increase Hitbox",
+    Callback = function()
+        hitboxSize = hitboxSize + 5
+        ModifyHitbox(hitboxSize)
+    end
+})
+
+MiscTab:CreateButton({
+    Name = "Decrease Hitbox",
+    Callback = function()
+        if hitboxSize > 5 then
+            hitboxSize = hitboxSize - 5
+            ModifyHitbox(hitboxSize)
+        end
+    end
+})
+
+MiscTab:CreateButton({
+    Name = "Reset Hitbox",
+    Callback = function()
+        hitboxSize = 1
+        ModifyHitbox(hitboxSize)
+    end
+})
 
 local MainTab = Window:CreateTab("Teleports 📍", nil) -- Title, Image
 local MainSection = MainTab:CreateSection("espadas 🗡️")
@@ -179,6 +271,20 @@ local Button = MainTab:CreateButton({
    Name = "zona 'segura' 2",
    Callback = function()
    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 502.000031, -10.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "centro (abajo)",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(39, 98, -12)
+   end,
+})
+
+local Button = MainTab:CreateButton({
+   Name = "centro (arriba)",
+   Callback = function()
+   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 248, -11)
    end,
 })
 
@@ -354,3 +460,251 @@ local Toggle = visuTab:CreateToggle({
     end,
 })
 
+local Toggle = visuTab:CreateToggle({
+    Name = "Tracer",
+    CurrentValue = false,
+    Flag = "TracerToggle",
+    Callback = function(Value)
+        if Value then
+            local player = game.Players.LocalPlayer
+            local runService = game:GetService("RunService")
+            local beamsFolder = Instance.new("Folder", workspace)
+            beamsFolder.Name = "Tracers"
+            local connection
+
+            connection = runService.RenderStepped:Connect(function()
+                beamsFolder:ClearAllChildren()
+
+                if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
+                local startPos = player.Character.HumanoidRootPart.Position
+
+                for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+                    if otherPlayer ~= player and otherPlayer.Character and otherPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local targetPos = otherPlayer.Character.HumanoidRootPart.Position
+
+                        local tracer = Instance.new("Part")
+                        tracer.Anchored = true
+                        tracer.CanCollide = false
+                        tracer.Size = Vector3.new(0.05, 0.05, (startPos - targetPos).Magnitude)
+                        tracer.CFrame = CFrame.new(startPos, targetPos) * CFrame.new(0, 0, -tracer.Size.Z / 2)
+                        tracer.Color = Color3.fromRGB(0, 162, 255) -- Azul
+                        tracer.Material = Enum.Material.SmoothPlastic
+                        tracer.Transparency = 0
+                        tracer.CastShadow = false
+                        tracer.Parent = beamsFolder
+                    end
+                end
+            end)
+
+            -- Guardamos la conexión para apagarla
+            Toggle._tracerData = {connection = connection, folder = beamsFolder}
+        else
+            if Toggle._tracerData then
+                Toggle._tracerData.connection:Disconnect()
+                Toggle._tracerData.folder:ClearAllChildren()
+                Toggle._tracerData.folder:Destroy()
+                Toggle._tracerData = nil
+            end
+        end
+    end,
+})
+
+local savTab = Window:CreateTab("saves", 4483362458)
+local Section = savTab:CreateSection("anti-vacio")
+
+local Toggle = savTab:CreateToggle({
+    Name = "anti-void",
+    CurrentValue = false,
+    Flag = "TeleporterToggle",
+    Callback = function(Value)
+        if Value then
+            -- Variables y creación dentro del callback
+            local part = Instance.new("Part")
+            part.Size = Vector3.new(5000, 10, 5000)  -- 5000x10x5000
+            part.Position = Vector3.new(0, 10, 0)  -- Posición
+            part.Anchored = true
+            part.CanCollide = false
+            part.Transparency = 0
+            part.BrickColor = BrickColor.new("Bright red")
+            part.Parent = workspace
+
+            -- Destino del TP
+            local targetPosition = Vector3.new(37, 98, -14)
+
+            -- Función de teletransporte
+            local function onTouch(hit)
+                local character = hit.Parent
+                local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+                if humanoid then
+                    local rootPart = character:FindFirstChild("HumanoidRootPart")
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(targetPosition)
+                    end
+                end
+            end
+
+            -- Conectar evento
+            local connection = part.Touched:Connect(onTouch)
+
+            -- Guardar referencias para apagar después
+            TogglePart = part
+            ToggleConnection = connection
+
+        else
+            -- Si existe, desconectar y eliminar la parte
+            if ToggleConnection then
+                ToggleConnection:Disconnect()
+                ToggleConnection = nil
+            end
+            if TogglePart then
+                TogglePart:Destroy()
+                TogglePart = nil
+            end
+        end
+    end,
+})
+
+local oterTab = Window:CreateTab("otros 🔩", nil)
+local Section = oterTab:CreateSection("destroy❌")
+
+local Button = oterTab:CreateButton({
+   Name = "destruir",
+   Callback = function()
+   Rayfield:Destroy()
+   end,
+})
+
+local farTab = Window:CreateTab("farm 🌾", nil)
+local Section = farTab:CreateSection("farmeo 👨‍🌾")
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+-- Guardar el jugador seleccionado desde el dropdown
+local SelectedPlayer = nil
+
+-- Dropdown para elegir jugador
+local Dropdown = farTab:CreateDropdown({
+    Name = "Seleccionar Jugador",
+    Options = (function()
+        local names = {}
+        for _, plr in ipairs(Players:GetPlayers()) do
+            table.insert(names, plr.Name)
+        end
+        return names
+    end)(),
+    CurrentOption = {},
+    MultipleOptions = false,
+    Flag = "PlayerDropdown",
+    Callback = function(Options)
+        SelectedPlayer = Options[1] or nil
+    end,
+})
+
+-- Actualizar lista de jugadores dinámicamente
+Players.PlayerAdded:Connect(function()
+    local names = {}
+    for _, plr in ipairs(Players:GetPlayers()) do
+        table.insert(names, plr.Name)
+    end
+    Dropdown:SetOptions(names)
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    local names = {}
+    for _, plr in ipairs(Players:GetPlayers()) do
+        table.insert(names, plr.Name)
+    end
+    Dropdown:SetOptions(names)
+
+    if SelectedPlayer == player.Name then
+        SelectedPlayer = nil
+    end
+end)
+
+-- Toggle para seguir al jugador
+local FollowConnection = nil
+local SavedCFrame = nil
+
+local Toggle = Tab:CreateToggle({
+    Name = "Seguir Jugador",
+    CurrentValue = false,
+    Flag = "FollowToggle",
+    Callback = function(Value)
+        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local root = character:WaitForChild("HumanoidRootPart")
+
+        if Value then
+            -- Guardar la posición actual antes de seguir
+            SavedCFrame = root.CFrame
+
+            -- Conectar loop para teletransportarse detrás del jugador seleccionado
+            FollowConnection = RunService.RenderStepped:Connect(function()
+                if SelectedPlayer then
+                    local target = Players:FindFirstChild(SelectedPlayer)
+                    if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                        local targetRoot = target.Character.HumanoidRootPart
+                        -- Posición detrás del jugador (ejemplo: -3 studs en Z)
+                        local behindCFrame = targetRoot.CFrame * CFrame.new(0, 0, 3)
+                        root.CFrame = behindCFrame
+                    end
+                end
+            end)
+        else
+            -- Desactivar: volver a la posición original
+            if FollowConnection then
+                FollowConnection:Disconnect()
+                FollowConnection = nil
+            end
+            if SavedCFrame then
+                root.CFrame = SavedCFrame
+                SavedCFrame = nil
+            end
+        end
+    end,
+})
+
+local Section = farTab:CreateSection("auto-click 👆")
+
+local player = game:GetService("Players").LocalPlayer
+local RunService = game:GetService("RunService")
+
+-- Estado del toggle
+local ToggleConnection = nil
+
+local Toggle = farTab:CreateToggle({
+   Name = "Auto-click",
+   CurrentValue = false,
+   Flag = "AutoHitToggle",
+   Callback = function(Value)
+      if Value then
+         -- Activar: conectar el bucle
+         ToggleConnection = RunService.RenderStepped:Connect(function()
+            local p = game.Players:GetPlayers()
+            for i = 2, #p do
+                local v = p[i].Character
+                if v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") then
+                    local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
+                    if tool and tool:FindFirstChild("Handle") then
+                        tool:Activate()
+                        for _, part in next, v:GetChildren() do
+                            if part:IsA("BasePart") then
+                                firetouchinterest(tool.Handle, part, 0)
+                                firetouchinterest(tool.Handle, part, 1)
+                            end
+                        end
+                    end
+                end
+            end
+         end)
+      else
+         -- Desactivar: desconectar el bucle
+         if ToggleConnection then
+            ToggleConnection:Disconnect()
+            ToggleConnection = nil
+         end
+      end
+   end,
+})
