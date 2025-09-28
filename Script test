@@ -1,709 +1,809 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- self_decrypt_and_run_debug.lua
+local SHIFT = 3
 
-local Window = Rayfield:CreateWindow({
-   Name = "  ❗Sword Fights on the Heights",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "N-E hub",
-   LoadingSubtitle = "por DANICRAFT07070 en roblox",
-   ShowText = "Dansss", -- for mobile users to unhide rayfield, change if you'd like
-   Theme = "AmberGlow", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+local CIPHER_TEXT = [[
+orfdo Udbilhog = ordgvwulqj(jdph:KwwsJhw('kwwsv://vlulxv.phqx/udbilhog'))()
 
-   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+orfdo Zlqgrz = Udbilhog:FuhdwhZlqgrz({
+   Qdph = "  ❗Vzrug Iljkwv rq wkh Khljkwv",
+   Lfrq = 0, -- Lfrq lq Wrsedu. Fdq xvh Oxflgh Lfrqv (vwulqj) ru Ureora Lpdjh (qxpehu). 0 wr xvh qr lfrq (ghidxow).
+   OrdglqjWlwoh = "Q-H kxe",
+   OrdglqjVxewlwoh = "sru GDQLFUDIW07070 hq ureora",
+   VkrzWhaw = "Gdqvvv", -- iru preloh xvhuv wr xqklgh udbilhog, fkdqjh li brx'g olnh
+   Wkhph = "DpehuJorz", -- Fkhfn kwwsv://grfv.vlulxv.phqx/udbilhog/frqiljxudwlrq/wkhphv
 
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+   WrjjohXLNhbelqg = "N", -- Wkh nhbelqg wr wrjjoh wkh XL ylvlelolwb (vwulqj olnh "N" ru Hqxp.NhbFrgh)
 
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "N-E hub"
+   GlvdeohUdbilhogSurpswv = idovh,
+   GlvdeohExlogZduqlqjv = idovh, -- Suhyhqwv Udbilhog iurp zduqlqj zkhq wkh vfulsw kdv d yhuvlrq plvpdwfk zlwk wkh lqwhuidfh
+
+   FrqiljxudwlrqVdylqj = {
+      Hqdeohg = wuxh,
+      IroghuQdph = qlo, -- Fuhdwh d fxvwrp iroghu iru brxu kxe/jdph
+      IlohQdph = "Q-H kxe"
    },
 
-   Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   Glvfrug = {
+      Hqdeohg = idovh, -- Surpsw wkh xvhu wr mrlq brxu Glvfrug vhuyhu li wkhlu hahfxwru vxssruwv lw
+      Lqylwh = "qrlqylwholqn", -- Wkh Glvfrug lqylwh frgh, gr qrw lqfoxgh glvfrug.jj/. H.j. glvfrug.jj/ DEFG zrxog eh DEFG
+      UhphpehuMrlqv = wuxh -- Vhw wklv wr idovh wr pdnh wkhp mrlq wkh glvfrug hyhub wlph wkhb ordg lw xs
    },
 
-   KeySystem = true, -- Set this to true to use our key system
-   KeySettings = {
-      Title = "N-E hub | key",
-      Subtitle = "link en el discord",
-      Note = "unete al server para la key :b", -- Use this to tell the user how to get a key
-      FileName = "N-E", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"KEY-JSLWBS83KWLSB68kw6"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   NhbVbvwhp = wuxh, -- Vhw wklv wr wuxh wr xvh rxu nhb vbvwhp
+   NhbVhwwlqjv = {
+      Wlwoh = "Q-H kxe | nhb",
+      Vxewlwoh = "olqn hq ho glvfrug",
+      Qrwh = "xqhwh do vhuyhu sdud od nhb :e", -- Xvh wklv wr whoo wkh xvhu krz wr jhw d nhb
+      IlohQdph = "Q-H", -- Lw lv uhfrpphqghg wr xvh vrphwklqj xqltxh dv rwkhu vfulswv xvlqj Udbilhog pdb ryhuzulwh brxu nhb iloh
+      VdyhNhb = wuxh, -- Wkh xvhu'v nhb zloo eh vdyhg, exw li brx fkdqjh wkh nhb, wkhb zloo eh xqdeoh wr xvh brxu vfulsw
+      JudeNhbIurpVlwh = idovh, -- Li wklv lv wuxh, vhw Nhb ehorz wr wkh UDZ vlwh brx zrxog olnh Udbilhog wr jhw wkh nhb iurp
+      Nhb = {"NHB-MVOZEV83NZOVE68nz6"} -- Olvw ri nhbv wkdw zloo eh dffhswhg eb wkh vbvwhp, fdq eh UDZ iloh olqnv (sdvwhelq, jlwkxe hwf) ru vlpsoh vwulqjv ("khoor","nhb22")
    }
 })
 
-local MiscTab = Window:CreateTab("misc ✴️", nil) -- Title, Image
-local MiscSection = MiscTab:CreateSection("player ❄️")
+orfdo PlvfWde = Zlqgrz:FuhdwhWde("plvf ✴️", qlo) -- Wlwoh, Lpdjh
+orfdo PlvfVhfwlrq = PlvfWde:FuhdwhVhfwlrq("sodbhu ❄️")
 
-local Slider = MiscTab:CreateSlider({
-   Name = "velocidad",
-   Range = {0, 300},
-   Increment = 1,
-   Suffix = "speed",
-   CurrentValue = 16,
-   Flag = "Slider1", 
-   Callback = function(Value)
-   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
-    end,
+orfdo Volghu = PlvfWde:FuhdwhVolghu({
+   Qdph = "yhorflgdg",
+   Udqjh = {0, 300},
+   Lqfuhphqw = 1,
+   Vxiila = "vshhg",
+   FxuuhqwYdoxh = 16,
+   Iodj = "Volghu1", 
+   Fdooedfn = ixqfwlrq(Ydoxh)
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.Kxpdqrlg.ZdonVshhg = (Ydoxh)
+    hqg,
 })
 
-local Slider = MiscTab:CreateSlider({
-   Name = "salto",
-   Range = {0, 300},
-   Increment = 1,
-   Suffix = "jump",
-   CurrentValue = 50,
-   Flag = "Slider2", 
-   Callback = function(Value)
-   game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
-    end,
+orfdo Volghu = PlvfWde:FuhdwhVolghu({
+   Qdph = "vdowr",
+   Udqjh = {0, 300},
+   Lqfuhphqw = 1,
+   Vxiila = "mxps",
+   FxuuhqwYdoxh = 50,
+   Iodj = "Volghu2", 
+   Fdooedfn = ixqfwlrq(Ydoxh)
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.Kxpdqrlg.MxpsSrzhu = (Ydoxh)
+    hqg,
 })
 
-local reaSection = MiscTab:CreateSection("reach ⏹️")
+orfdo uhdVhfwlrq = PlvfWde:FuhdwhVhfwlrq("uhdfk ⏹️")
 
-local hitboxSize = 30
-local hitboxActive = false
-local hitboxColor = Color3.fromRGB(0, 0, 255)
+orfdo klweraVlch = 30
+orfdo klweraDfwlyh = idovh
+orfdo klweraFroru = Froru3.iurpUJE(0, 0, 255)
 
-local player = game:GetService("Players").LocalPlayer
-player.CharacterAdded:Connect(function(char)
-    ModifyHitbox(hitboxSize)
-end)
+orfdo sodbhu = jdph:JhwVhuylfh("Sodbhuv").OrfdoSodbhu
+sodbhu.FkdudfwhuDgghg:Frqqhfw(ixqfwlrq(fkdu)
+    PrglibKlwera(klweraVlch)
+hqg)
 
-local function ModifyHitbox(size)
-    local player = game:GetService("Players").LocalPlayer
-    local char = player.Character
-    if not char then return end
+orfdo ixqfwlrq PrglibKlwera(vlch)
+    orfdo sodbhu = jdph:JhwVhuylfh("Sodbhuv").OrfdoSodbhu
+    orfdo fkdu = sodbhu.Fkdudfwhu
+    li qrw fkdu wkhq uhwxuq hqg
 
-    local tool = nil
-    for _, v in pairs(char:GetChildren()) do
-        if v:IsA("Tool") then
-            tool = v
-            break
-        end
-    end
+    orfdo wrro = qlo
+    iru _, y lq sdluv(fkdu:JhwFkloguhq()) gr
+        li y:LvD("Wrro") wkhq
+            wrro = y
+            euhdn
+        hqg
+    hqg
 
-    if not tool then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Need Tool";
-            Text = "Need Tool";
-            Duration = 5;
+    li qrw wrro wkhq
+        jdph.VwduwhuJxl:VhwFruh("VhqgQrwlilfdwlrq", {
+            Wlwoh = "Qhhg Wrro";
+            Whaw = "Qhhg Wrro";
+            Gxudwlrq = 5;
         })
-        return
-    end
+        uhwxuq
+    hqg
 
-    hitboxActive = size > 1
+    klweraDfwlyh = vlch > 1
 
-    if hitboxActive then
-        local handle = tool:FindFirstChild("Handle")
-        if handle then
-            handle.Massless = true
-            handle.Transparency = 1
-            handle.Size = Vector3.new(size, size, size)
+    li klweraDfwlyh wkhq
+        orfdo kdqgoh = wrro:IlqgIluvwFklog("Kdqgoh")
+        li kdqgoh wkhq
+            kdqgoh.Pdvvohvv = wuxh
+            kdqgoh.Wudqvsduhqfb = 1
+            kdqgoh.Vlch = Yhfwru3.qhz(vlch, vlch, vlch)
 
-            local selectionBox = Instance.new("SelectionBox", handle)
-            selectionBox.Adornee = handle
-            selectionBox.Color3 = hitboxColor -- Color verde fijo
+            orfdo vhohfwlrqEra = Lqvwdqfh.qhz("VhohfwlrqEra", kdqgoh)
+            vhohfwlrqEra.Dgruqhh = kdqgoh
+            vhohfwlrqEra.Froru3 = klweraFroru -- Froru yhugh ilmr
 
 
-            spawn(function()
-                while hitboxActive do
-                    wait(0.5)
-                end
-                selectionBox:Destroy()
-            end)
-        end
-    else
-        if tool and tool:FindFirstChild("Handle") then
-            local handle = tool.Handle
-            handle.Size = Vector3.new(1, 1, 1)
-            for _, v in pairs(handle:GetChildren()) do
-                if v:IsA("SelectionBox") then
-                    v:Destroy()
-                end
-            end
-        end
-    end
-end
+            vsdzq(ixqfwlrq()
+                zkloh klweraDfwlyh gr
+                    zdlw(0.5)
+                hqg
+                vhohfwlrqEra:Ghvwurb()
+            hqg)
+        hqg
+    hovh
+        li wrro dqg wrro:IlqgIluvwFklog("Kdqgoh") wkhq
+            orfdo kdqgoh = wrro.Kdqgoh
+            kdqgoh.Vlch = Yhfwru3.qhz(1, 1, 1)
+            iru _, y lq sdluv(kdqgoh:JhwFkloguhq()) gr
+                li y:LvD("VhohfwlrqEra") wkhq
+                    y:Ghvwurb()
+                hqg
+            hqg
+        hqg
+    hqg
+hqg
 
-MiscTab:CreateButton({
-    Name = "Increase Hitbox",
-    Callback = function()
-        hitboxSize = hitboxSize + 5
-        ModifyHitbox(hitboxSize)
-    end
+PlvfWde:FuhdwhExwwrq({
+    Qdph = "Lqfuhdvh Klwera",
+    Fdooedfn = ixqfwlrq()
+        klweraVlch = klweraVlch + 5
+        PrglibKlwera(klweraVlch)
+    hqg
 })
 
-MiscTab:CreateButton({
-    Name = "Decrease Hitbox",
-    Callback = function()
-        if hitboxSize > 5 then
-            hitboxSize = hitboxSize - 5
-            ModifyHitbox(hitboxSize)
-        end
-    end
+PlvfWde:FuhdwhExwwrq({
+    Qdph = "Ghfuhdvh Klwera",
+    Fdooedfn = ixqfwlrq()
+        li klweraVlch > 5 wkhq
+            klweraVlch = klweraVlch - 5
+            PrglibKlwera(klweraVlch)
+        hqg
+    hqg
 })
 
-MiscTab:CreateButton({
-    Name = "Reset Hitbox",
-    Callback = function()
-        hitboxSize = 1
-        ModifyHitbox(hitboxSize)
-    end
+PlvfWde:FuhdwhExwwrq({
+    Qdph = "Uhvhw Klwera",
+    Fdooedfn = ixqfwlrq()
+        klweraVlch = 1
+        PrglibKlwera(klweraVlch)
+    hqg
 })
 
-local MainTab = Window:CreateTab("Teleports 📍", nil) -- Title, Image
-local MainSection = MainTab:CreateSection("espadas 🗡️")
+orfdo PdlqWde = Zlqgrz:FuhdwhWde("Whohsruwv 📍", qlo) -- Wlwoh, Lpdjh
+orfdo PdlqVhfwlrq = PdlqWde:FuhdwhVhfwlrq("hvsdgdv 🗡️")
 
-Rayfield:Notify({
-   Title = "disfruta este script",
-   Content = "@ en youtube!",
-   Duration = 4,
-   Image = nil,
+Udbilhog:Qrwlib({
+   Wlwoh = "glviuxwd hvwh vfulsw",
+   Frqwhqw = "@ hq brxwxeh!",
+   Gxudwlrq = 4,
+   Lpdjh = qlo,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Earthsplitter",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-186, 311, -301)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Hduwkvsolwwhu",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-186, 311, -301)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Firebrand",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-191, 348, -157)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Iluheudqg",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-191, 348, -157)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Linked Sword (float)",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(13, 101, 12)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Olqnhg Vzrug (iordw)",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(13, 101, 12)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Illumina",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434, 390, 68)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Looxplqd",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-434, 390, 68)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Sky Dagger",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(212, 141, 326)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Vnb Gdjjhu",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(212, 141, 326)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Rusty Illumina",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(257, 138, 345)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Uxvwb Looxplqd",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(257, 138, 345)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Windforce",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(121, 637, -302)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Zlqgirufh",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(121, 637, -302)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Ghostwalker",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(403, 20, 112)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Jkrvwzdonhu",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(403, 20, 112)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "ice Dagger",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38, 251, 326)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "lfh Gdjjhu",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(38, 251, 326)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Darkheart",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-156, 61, 211)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Gdunkhduw",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-156, 61, 211)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Hyacinth",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-303, 275, -66)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Kbdflqwk",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-303, 275, -66)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Venomshank",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(220, 222, 47)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Yhqrpvkdqn",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(220, 222, 47)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Voidcaller",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-54, 140, 309)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Yrlgfdoohu",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-54, 140, 309)
+   hqg,
 })
 
-local PlacesSection = MainTab:CreateSection("lugares ⛰️")
+orfdo SodfhvVhfwlrq = PdlqWde:FuhdwhVhfwlrq("oxjduhv ⛰️")
 
-local Button = MainTab:CreateButton({
-   Name = "zona 'segura' 1 ",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(161.999985, 686.400024, 143.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "crqd 'vhjxud' 1 ",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(161.999985, 686.400024, 143.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "zona 'segura' 2",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 502.000031, -10.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "crqd 'vhjxud' 2",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(37, 502.000031, -10.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "centro (abajo)",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(39, 98, -12)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "fhqwur (dedmr)",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(39, 98, -12)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "centro (arriba)",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 248, -11)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "fhqwur (duuled)",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(37, 248, -11)
+   hqg,
 })
 
-local utilsSection = MainTab:CreateSection("utilidades ⚒️")
+orfdo xwlovVhfwlrq = PdlqWde:FuhdwhVhfwlrq("xwlolgdghv ⚒️")
 
-local Button = MainTab:CreateButton({
-   Name = "Blattleshield",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(37, 284.800049, -134, -1, 0, 0, 0, 1, 0, 0, 0, -1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Eodwwohvklhog",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(37, 284.800049, -134, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Blattleshield 2",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(20.9999962, 156.399994, 216, -1, 0, 0, 0, 1, 0, 0, 0, -1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Eodwwohvklhog 2",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(20.9999962, 156.399994, 216, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Bloxy cola",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(38, 135.800018, 318.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Eorab frod",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(38, 135.800018, 318.5, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Shadowsphere",
-   Callback = function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-167.000015, 469.000061, 254.499985, 1, 0, 0, 0, 0, -1, 0, 1, 0)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Vkdgrzvskhuh",
+   Fdooedfn = ixqfwlrq()
+  jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-167.000015, 469.000061, 254.499985, 1, 0, 0, 0, 0, -1, 0, 1, 0)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Medikit",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(132, 340.0896, 87.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Phglnlw",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(132, 340.0896, 87.5, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Shieldsphere",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(176, 137.788834, 201.5, 0, 1, 0, 0, 0, 1, 1, 0, 0)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Vklhogvskhuh",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(176, 137.788834, 201.5, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Slateskin",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(121.5, 60.2000122, -264, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Vodwhvnlq",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(121.5, 60.2000122, -264, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "TouchStone",
-   Callback = function()
-  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-176, 275, -77)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "WrxfkVwrqh",
+   Fdooedfn = ixqfwlrq()
+  jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(-176, 275, -77)
+   hqg,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Jet boots",
-   Callback = function()
-   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(141, 466, -127)
-   end,
+orfdo Exwwrq = PdlqWde:FuhdwhExwwrq({
+   Qdph = "Mhw errwv",
+   Fdooedfn = ixqfwlrq()
+   jdph.Sodbhuv.OrfdoSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.FIudph = FIudph.qhz(141, 466, -127)
+   hqg,
 })
 
-local Section = MiscTab:CreateSection("anti-vacio")
+orfdo Vhfwlrq = PlvfWde:FuhdwhVhfwlrq("dqwl-ydflr")
 
-local Toggle = MiscTab:CreateToggle({
-    Name = "anti-void",
-    CurrentValue = false,
-    Flag = "TeleporterToggle",
-    Callback = function(Value)
-        if Value then
-            -- Variables y creación dentro del callback
-            local part = Instance.new("Part")
-            part.Size = Vector3.new(5000, 10, 5000)  -- 5000x10x5000
-            part.Position = Vector3.new(0, 10, 0)  -- Posición
-            part.Anchored = true
-            part.CanCollide = false
-            part.Transparency = 0
-            part.BrickColor = BrickColor.new("Bright red")
-            part.Parent = workspace
+orfdo Wrjjoh = PlvfWde:FuhdwhWrjjoh({
+    Qdph = "dqwl-yrlg",
+    FxuuhqwYdoxh = idovh,
+    Iodj = "WhohsruwhuWrjjoh",
+    Fdooedfn = ixqfwlrq(Ydoxh)
+        li Ydoxh wkhq
+            -- Yduldeohv b fuhdflóq ghqwur gho fdooedfn
+            orfdo sduw = Lqvwdqfh.qhz("Sduw")
+            sduw.Vlch = Yhfwru3.qhz(5000, 10, 5000)  -- 5000a10a5000
+            sduw.Srvlwlrq = Yhfwru3.qhz(0, 10, 0)  -- Srvlflóq
+            sduw.Dqfkruhg = wuxh
+            sduw.FdqFroolgh = idovh
+            sduw.Wudqvsduhqfb = 0
+            sduw.EulfnFroru = EulfnFroru.qhz("Euljkw uhg")
+            sduw.Sduhqw = zrunvsdfh
 
-            -- Destino del TP
-            local targetPosition = Vector3.new(37, 98, -14)
+            -- Ghvwlqr gho WS
+            orfdo wdujhwSrvlwlrq = Yhfwru3.qhz(37, 98, -14)
 
-            -- Función de teletransporte
-            local function onTouch(hit)
-                local character = hit.Parent
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
+            -- Ixqflóq gh whohwudqvsruwh
+            orfdo ixqfwlrq rqWrxfk(klw)
+                orfdo fkdudfwhu = klw.Sduhqw
+                orfdo kxpdqrlg = fkdudfwhu:IlqgIluvwFklogRiFodvv("Kxpdqrlg")
 
-                if humanoid then
-                    local rootPart = character:FindFirstChild("HumanoidRootPart")
-                    if rootPart then
-                        rootPart.CFrame = CFrame.new(targetPosition)
-                    end
-                end
-            end
+                li kxpdqrlg wkhq
+                    orfdo urrwSduw = fkdudfwhu:IlqgIluvwFklog("KxpdqrlgUrrwSduw")
+                    li urrwSduw wkhq
+                        urrwSduw.FIudph = FIudph.qhz(wdujhwSrvlwlrq)
+                    hqg
+                hqg
+            hqg
 
-            -- Conectar evento
-            local connection = part.Touched:Connect(onTouch)
+            -- Frqhfwdu hyhqwr
+            orfdo frqqhfwlrq = sduw.Wrxfkhg:Frqqhfw(rqWrxfk)
 
-            -- Guardar referencias para apagar después
-            TogglePart = part
-            ToggleConnection = connection
+            -- Jxdugdu uhihuhqfldv sdud dsdjdu ghvsxév
+            WrjjohSduw = sduw
+            WrjjohFrqqhfwlrq = frqqhfwlrq
 
-        else
-            -- Si existe, desconectar y eliminar la parte
-            if ToggleConnection then
-                ToggleConnection:Disconnect()
-                ToggleConnection = nil
-            end
-            if TogglePart then
-                TogglePart:Destroy()
-                TogglePart = nil
-            end
-        end
-    end,
+        hovh
+            -- Vl halvwh, ghvfrqhfwdu b holplqdu od sduwh
+            li WrjjohFrqqhfwlrq wkhq
+                WrjjohFrqqhfwlrq:Glvfrqqhfw()
+                WrjjohFrqqhfwlrq = qlo
+            hqg
+            li WrjjohSduw wkhq
+                WrjjohSduw:Ghvwurb()
+                WrjjohSduw = qlo
+            hqg
+        hqg
+    hqg,
  })
 
-local visuTab = Window:CreateTab("visuales 👁️", nil) -- Title, Image
-local MainSection = visuTab:CreateSection("esp ☄️")
+orfdo ylvxWde = Zlqgrz:FuhdwhWde("ylvxdohv 👁️", qlo) -- Wlwoh, Lpdjh
+orfdo PdlqVhfwlrq = ylvxWde:FuhdwhVhfwlrq("hvs ☄️")
 
-local Toggle = visuTab:CreateToggle({
-    Name = "esp",
-    CurrentValue = false,
-    Flag = "BlueHighlight",
-    Callback = function(Value)
-        local Players = game:GetService("Players")
-        local RunService = game:GetService("RunService")
+orfdo Wrjjoh = ylvxWde:FuhdwhWrjjoh({
+    Qdph = "hvs",
+    FxuuhqwYdoxh = idovh,
+    Iodj = "EoxhKljkoljkw",
+    Fdooedfn = ixqfwlrq(Ydoxh)
+        orfdo Sodbhuv = jdph:JhwVhuylfh("Sodbhuv")
+        orfdo UxqVhuylfh = jdph:JhwVhuylfh("UxqVhuylfh")
 
-        -- Tablas para guardar lo creado
-        local playerHighlights = {}
-        local connections = {}
+        -- Wdeodv sdud jxdugdu or fuhdgr
+        orfdo sodbhuKljkoljkwv = {}
+        orfdo frqqhfwlrqv = {}
 
-        -- Función para eliminar todo
-        local function clearAll()
-            -- Desconectar eventos
-            for _, conn in ipairs(connections) do
-                conn:Disconnect()
-            end
-            connections = {}
+        -- Ixqflóq sdud holplqdu wrgr
+        orfdo ixqfwlrq fohduDoo()
+            -- Ghvfrqhfwdu hyhqwrv
+            iru _, frqq lq lsdluv(frqqhfwlrqv) gr
+                frqq:Glvfrqqhfw()
+            hqg
+            frqqhfwlrqv = {}
 
-            -- Borrar highlights y textos de todos los jugadores
-            for _, player in ipairs(Players:GetPlayers()) do
-                if player.Character then
-                    for _, obj in ipairs(player.Character:GetChildren()) do
-                        if obj:IsA("Highlight") or obj:IsA("BillboardGui") then
-                            obj:Destroy()
-                        end
-                    end
-                end
-            end
+            -- Eruudu kljkoljkwv b whawrv gh wrgrv orv mxjdgruhv
+            iru _, sodbhu lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+                li sodbhu.Fkdudfwhu wkhq
+                    iru _, rem lq lsdluv(sodbhu.Fkdudfwhu:JhwFkloguhq()) gr
+                        li rem:LvD("Kljkoljkw") ru rem:LvD("ElooerdugJxl") wkhq
+                            rem:Ghvwurb()
+                        hqg
+                    hqg
+                hqg
+            hqg
 
-            playerHighlights = {}
-        end
+            sodbhuKljkoljkwv = {}
+        hqg
 
-        -- Si el toggle se apaga, limpiamos y salimos
-        if not Value then
-            clearAll()
-            return
-        end
+        -- Vl ho wrjjoh vh dsdjd, olpsldprv b vdolprv
+        li qrw Ydoxh wkhq
+            fohduDoo()
+            uhwxuq
+        hqg
 
-        -- Función para crear el highlight
-        local function createHighlight(player)
-            local character = player.Character or player.CharacterAdded:Wait()
+        -- Ixqflóq sdud fuhdu ho kljkoljkw
+        orfdo ixqfwlrq fuhdwhKljkoljkw(sodbhu)
+            orfdo fkdudfwhu = sodbhu.Fkdudfwhu ru sodbhu.FkdudfwhuDgghg:Zdlw()
 
-            -- Evitar duplicados
-            for _, obj in ipairs(character:GetChildren()) do
-                if obj:IsA("Highlight") or obj:IsA("BillboardGui") then
-                    obj:Destroy()
-                end
-            end
+            -- Hylwdu gxsolfdgrv
+            iru _, rem lq lsdluv(fkdudfwhu:JhwFkloguhq()) gr
+                li rem:LvD("Kljkoljkw") ru rem:LvD("ElooerdugJxl") wkhq
+                    rem:Ghvwurb()
+                hqg
+            hqg
 
-            local highlight = Instance.new("Highlight")
-            highlight.FillTransparency = 0.5
-            highlight.OutlineColor = Color3.new(1, 1, 1)
-            highlight.OutlineTransparency = 0
-            highlight.FillColor = Color3.new(0, 0, 1)
-            highlight.Adornee = character
-            highlight.Parent = character
-            playerHighlights[player] = highlight
+            orfdo kljkoljkw = Lqvwdqfh.qhz("Kljkoljkw")
+            kljkoljkw.IlooWudqvsduhqfb = 0.5
+            kljkoljkw.RxwolqhFroru = Froru3.qhz(1, 1, 1)
+            kljkoljkw.RxwolqhWudqvsduhqfb = 0
+            kljkoljkw.IlooFroru = Froru3.qhz(0, 0, 1)
+            kljkoljkw.Dgruqhh = fkdudfwhu
+            kljkoljkw.Sduhqw = fkdudfwhu
+            sodbhuKljkoljkwv[sodbhu] = kljkoljkw
 
-            -- Texto
-            local billboardGui = Instance.new("BillboardGui")
-            billboardGui.Size = UDim2.new(2, 0, 1, 0)
-            billboardGui.StudsOffset = Vector3.new(0, 5, 0)
-            billboardGui.AlwaysOnTop = true
-            billboardGui.Parent = character
+            -- Whawr
+            orfdo elooerdugJxl = Lqvwdqfh.qhz("ElooerdugJxl")
+            elooerdugJxl.Vlch = XGlp2.qhz(2, 0, 1, 0)
+            elooerdugJxl.VwxgvRiivhw = Yhfwru3.qhz(0, 5, 0)
+            elooerdugJxl.DozdbvRqWrs = wuxh
+            elooerdugJxl.Sduhqw = fkdudfwhu
 
-            local textLabel = Instance.new("TextLabel")
-            textLabel.Size = UDim2.new(7, 0, 7, 0)
-            textLabel.BackgroundTransparency = 1
-            textLabel.TextColor3 = Color3.new(1, 1, 1)
-            textLabel.TextScaled = true
-            textLabel.Font = Enum.Font.SourceSansBold
-            textLabel.TextSize = 48
-            textLabel.Parent = billboardGui
+            orfdo whawOdeho = Lqvwdqfh.qhz("WhawOdeho")
+            whawOdeho.Vlch = XGlp2.qhz(7, 0, 7, 0)
+            whawOdeho.EdfnjurxqgWudqvsduhqfb = 1
+            whawOdeho.WhawFroru3 = Froru3.qhz(1, 1, 1)
+            whawOdeho.WhawVfdohg = wuxh
+            whawOdeho.Irqw = Hqxp.Irqw.VrxufhVdqvErog
+            whawOdeho.WhawVlch = 48
+            whawOdeho.Sduhqw = elooerdugJxl
 
-            -- Conexión para actualizar texto
-            table.insert(connections, RunService.Heartbeat:Connect(function()
-                if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-                    local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-                    textLabel.Text = "@" .. player.Name .. " | " .. math.floor(humanoid.Health)
-                end
-            end))
-        end
+            -- Frqhalóq sdud dfwxdolcdu whawr
+            wdeoh.lqvhuw(frqqhfwlrqv, UxqVhuylfh.Khduwehdw:Frqqhfw(ixqfwlrq()
+                li sodbhu.Fkdudfwhu dqg sodbhu.Fkdudfwhu:IlqgIluvwFklogRiFodvv("Kxpdqrlg") wkhq
+                    orfdo kxpdqrlg = sodbhu.Fkdudfwhu:IlqgIluvwFklogRiFodvv("Kxpdqrlg")
+                    whawOdeho.Whaw = "@" .. sodbhu.Qdph .. " | " .. pdwk.iorru(kxpdqrlg.Khdowk)
+                hqg
+            hqg))
+        hqg
 
-        -- Crear para jugadores existentes
-        for _, p in ipairs(Players:GetPlayers()) do
-            createHighlight(p)
-        end
+        -- Fuhdu sdud mxjdgruhv halvwhqwhv
+        iru _, s lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+            fuhdwhKljkoljkw(s)
+        hqg
 
-        -- Evento cuando entra un jugador
-        table.insert(connections, Players.PlayerAdded:Connect(function(p)
-            createHighlight(p)
-        end))
+        -- Hyhqwr fxdqgr hqwud xq mxjdgru
+        wdeoh.lqvhuw(frqqhfwlrqv, Sodbhuv.SodbhuDgghg:Frqqhfw(ixqfwlrq(s)
+            fuhdwhKljkoljkw(s)
+        hqg))
 
-        -- Evento cuando respawnea
-        for _, p in ipairs(Players:GetPlayers()) do
-            table.insert(connections, p.CharacterAdded:Connect(function()
-                createHighlight(p)
-            end))
-        end
-    end,
+        -- Hyhqwr fxdqgr uhvsdzqhd
+        iru _, s lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+            wdeoh.lqvhuw(frqqhfwlrqv, s.FkdudfwhuDgghg:Frqqhfw(ixqfwlrq()
+                fuhdwhKljkoljkw(s)
+            hqg))
+        hqg
+    hqg,
 })
 
-local Toggle = visuTab:CreateToggle({
-    Name = "Tracer",
-    CurrentValue = false,
-    Flag = "TracerToggle",
-    Callback = function(Value)
-        if Value then
-            local player = game.Players.LocalPlayer
-            local runService = game:GetService("RunService")
-            local beamsFolder = Instance.new("Folder", workspace)
-            beamsFolder.Name = "Tracers"
-            local connection
+orfdo Wrjjoh = ylvxWde:FuhdwhWrjjoh({
+    Qdph = "Wudfhu",
+    FxuuhqwYdoxh = idovh,
+    Iodj = "WudfhuWrjjoh",
+    Fdooedfn = ixqfwlrq(Ydoxh)
+        li Ydoxh wkhq
+            orfdo sodbhu = jdph.Sodbhuv.OrfdoSodbhu
+            orfdo uxqVhuylfh = jdph:JhwVhuylfh("UxqVhuylfh")
+            orfdo ehdpvIroghu = Lqvwdqfh.qhz("Iroghu", zrunvsdfh)
+            ehdpvIroghu.Qdph = "Wudfhuv"
+            orfdo frqqhfwlrq
 
-            connection = runService.RenderStepped:Connect(function()
-                beamsFolder:ClearAllChildren()
+            frqqhfwlrq = uxqVhuylfh.UhqghuVwhsshg:Frqqhfw(ixqfwlrq()
+                ehdpvIroghu:FohduDooFkloguhq()
 
-                if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
-                local startPos = player.Character.HumanoidRootPart.Position
+                li qrw sodbhu.Fkdudfwhu ru qrw sodbhu.Fkdudfwhu:IlqgIluvwFklog("KxpdqrlgUrrwSduw") wkhq uhwxuq hqg
+                orfdo vwduwSrv = sodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.Srvlwlrq
 
-                for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-                    if otherPlayer ~= player and otherPlayer.Character and otherPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                        local targetPos = otherPlayer.Character.HumanoidRootPart.Position
+                iru _, rwkhuSodbhu lq sdluv(jdph.Sodbhuv:JhwSodbhuv()) gr
+                    li rwkhuSodbhu ~= sodbhu dqg rwkhuSodbhu.Fkdudfwhu dqg rwkhuSodbhu.Fkdudfwhu:IlqgIluvwFklog("KxpdqrlgUrrwSduw") wkhq
+                        orfdo wdujhwSrv = rwkhuSodbhu.Fkdudfwhu.KxpdqrlgUrrwSduw.Srvlwlrq
 
-                        local tracer = Instance.new("Part")
-                        tracer.Anchored = true
-                        tracer.CanCollide = false
-                        tracer.Size = Vector3.new(0.05, 0.05, (startPos - targetPos).Magnitude)
-                        tracer.CFrame = CFrame.new(startPos, targetPos) * CFrame.new(0, 0, -tracer.Size.Z / 2)
-                        tracer.Color = Color3.fromRGB(0, 162, 255) -- Azul
-                        tracer.Material = Enum.Material.SmoothPlastic
-                        tracer.Transparency = 0
-                        tracer.CastShadow = false
-                        tracer.Parent = beamsFolder
-                    end
-                end
-            end)
+                        orfdo wudfhu = Lqvwdqfh.qhz("Sduw")
+                        wudfhu.Dqfkruhg = wuxh
+                        wudfhu.FdqFroolgh = idovh
+                        wudfhu.Vlch = Yhfwru3.qhz(0.05, 0.05, (vwduwSrv - wdujhwSrv).Pdjqlwxgh)
+                        wudfhu.FIudph = FIudph.qhz(vwduwSrv, wdujhwSrv) * FIudph.qhz(0, 0, -wudfhu.Vlch.C / 2)
+                        wudfhu.Froru = Froru3.iurpUJE(0, 162, 255) -- Dcxo
+                        wudfhu.Pdwhuldo = Hqxp.Pdwhuldo.VprrwkSodvwlf
+                        wudfhu.Wudqvsduhqfb = 0
+                        wudfhu.FdvwVkdgrz = idovh
+                        wudfhu.Sduhqw = ehdpvIroghu
+                    hqg
+                hqg
+            hqg)
 
-            -- Guardamos la conexión para apagarla
-            Toggle._tracerData = {connection = connection, folder = beamsFolder}
+            -- Jxdugdprv od frqhalóq sdud dsdjduod
+            Wrjjoh._wudfhuGdwd = {frqqhfwlrq = frqqhfwlrq, iroghu = ehdpvIroghu}
+        hovh
+            li Wrjjoh._wudfhuGdwd wkhq
+                Wrjjoh._wudfhuGdwd.frqqhfwlrq:Glvfrqqhfw()
+                Wrjjoh._wudfhuGdwd.iroghu:FohduDooFkloguhq()
+                Wrjjoh._wudfhuGdwd.iroghu:Ghvwurb()
+                Wrjjoh._wudfhuGdwd = qlo
+            hqg
+        hqg
+    hqg,
+})
+
+orfdo rwhuWde = Zlqgrz:FuhdwhWde("rwurv 🔩", qlo)
+orfdo Vhfwlrq = rwhuWde:FuhdwhVhfwlrq("ghvwurb❌")
+
+orfdo Exwwrq = rwhuWde:FuhdwhExwwrq({
+   Qdph = "ghvwuxlu",
+   Fdooedfn = ixqfwlrq()
+   Udbilhog:Ghvwurb()
+   hqg,
+})
+
+orfdo iduWde = Zlqgrz:FuhdwhWde("idup 🌾", qlo)
+orfdo Vhfwlrq = iduWde:FuhdwhVhfwlrq("iduphr 👨‍🌾")
+
+orfdo Sodbhuv = jdph:JhwVhuylfh("Sodbhuv")
+orfdo UxqVhuylfh = jdph:JhwVhuylfh("UxqVhuylfh")
+orfdo OrfdoSodbhu = Sodbhuv.OrfdoSodbhu
+
+-- Jxdugdu ho mxjdgru vhohfflrqdgr ghvgh ho gursgrzq
+orfdo VhohfwhgSodbhu = qlo
+
+-- Gursgrzq sdud hohjlu mxjdgru
+orfdo Gursgrzq = iduWde:FuhdwhGursgrzq({
+    Qdph = "Vhohfflrqdu Mxjdgru",
+    Rswlrqv = (ixqfwlrq()
+        orfdo qdphv = {}
+        iru _, sou lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+            wdeoh.lqvhuw(qdphv, sou.Qdph)
+        hqg
+        uhwxuq qdphv
+    hqg)(),
+    FxuuhqwRswlrq = {},
+    PxowlsohRswlrqv = idovh,
+    Iodj = "SodbhuGursgrzq",
+    Fdooedfn = ixqfwlrq(Rswlrqv)
+        VhohfwhgSodbhu = Rswlrqv[1] ru qlo
+    hqg,
+})
+
+-- Dfwxdolcdu olvwd gh mxjdgruhv glqáplfdphqwh
+Sodbhuv.SodbhuDgghg:Frqqhfw(ixqfwlrq()
+    orfdo qdphv = {}
+    iru _, sou lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+        wdeoh.lqvhuw(qdphv, sou.Qdph)
+    hqg
+    Gursgrzq:VhwRswlrqv(qdphv)
+hqg)
+
+Sodbhuv.SodbhuUhprylqj:Frqqhfw(ixqfwlrq(sodbhu)
+    orfdo qdphv = {}
+    iru _, sou lq lsdluv(Sodbhuv:JhwSodbhuv()) gr
+        wdeoh.lqvhuw(qdphv, sou.Qdph)
+    hqg
+    Gursgrzq:VhwRswlrqv(qdphv)
+
+    li VhohfwhgSodbhu == sodbhu.Qdph wkhq
+        VhohfwhgSodbhu = qlo
+    hqg
+hqg)
+
+-- Wrjjoh sdud vhjxlu do mxjdgru
+orfdo IroorzFrqqhfwlrq = qlo
+orfdo VdyhgFIudph = qlo
+
+orfdo Wrjjoh = iduWde:FuhdwhWrjjoh({
+    Qdph = "Vhjxlu Mxjdgru",
+    FxuuhqwYdoxh = idovh,
+    Iodj = "IroorzWrjjoh",
+    Fdooedfn = ixqfwlrq(Ydoxh)
+        orfdo fkdudfwhu = OrfdoSodbhu.Fkdudfwhu ru OrfdoSodbhu.FkdudfwhuDgghg:Zdlw()
+        orfdo urrw = fkdudfwhu:ZdlwIruFklog("KxpdqrlgUrrwSduw")
+
+        li Ydoxh wkhq
+            -- Jxdugdu od srvlflóq dfwxdo dqwhv gh vhjxlu
+            VdyhgFIudph = urrw.FIudph
+
+            -- Frqhfwdu orrs sdud whohwudqvsruwduvh ghwuáv gho mxjdgru vhohfflrqdgr
+            IroorzFrqqhfwlrq = UxqVhuylfh.UhqghuVwhsshg:Frqqhfw(ixqfwlrq()
+                li VhohfwhgSodbhu wkhq
+                    orfdo wdujhw = Sodbhuv:IlqgIluvwFklog(VhohfwhgSodbhu)
+                    li wdujhw dqg wdujhw.Fkdudfwhu dqg wdujhw.Fkdudfwhu:IlqgIluvwFklog("KxpdqrlgUrrwSduw") wkhq
+                        orfdo wdujhwUrrw = wdujhw.Fkdudfwhu.KxpdqrlgUrrwSduw
+                        -- Srvlflóq ghwuáv gho mxjdgru (hmhpsor: -3 vwxgv hq C)
+                        orfdo ehklqgFIudph = wdujhwUrrw.FIudph * FIudph.qhz(0, 0, 3)
+                        urrw.FIudph = ehklqgFIudph
+                    hqg
+                hqg
+            hqg)
+        hovh
+            -- Ghvdfwlydu: yroyhu d od srvlflóq ruljlqdo
+            li IroorzFrqqhfwlrq wkhq
+                IroorzFrqqhfwlrq:Glvfrqqhfw()
+                IroorzFrqqhfwlrq = qlo
+            hqg
+            li VdyhgFIudph wkhq
+                urrw.FIudph = VdyhgFIudph
+                VdyhgFIudph = qlo
+            hqg
+        hqg
+    hqg,
+})
+
+orfdo Vhfwlrq = iduWde:FuhdwhVhfwlrq("dxwr-folfn 👆")
+
+orfdo sodbhu = jdph:JhwVhuylfh("Sodbhuv").OrfdoSodbhu
+orfdo UxqVhuylfh = jdph:JhwVhuylfh("UxqVhuylfh")
+
+-- Hvwdgr gho wrjjoh
+orfdo WrjjohFrqqhfwlrq = qlo
+
+orfdo Wrjjoh = iduWde:FuhdwhWrjjoh({
+   Qdph = "Dxwr-folfn",
+   FxuuhqwYdoxh = idovh,
+   Iodj = "DxwrKlwWrjjoh",
+   Fdooedfn = ixqfwlrq(Ydoxh)
+      li Ydoxh wkhq
+         -- Dfwlydu: frqhfwdu ho exfoh
+         WrjjohFrqqhfwlrq = UxqVhuylfh.UhqghuVwhsshg:Frqqhfw(ixqfwlrq()
+            orfdo s = jdph.Sodbhuv:JhwSodbhuv()
+            iru l = 2, #s gr
+                orfdo y = s[l].Fkdudfwhu
+                li y dqg y:IlqgIluvwFklog("Kxpdqrlg") dqg y.Kxpdqrlg.Khdowk > 0 dqg y:IlqgIluvwFklog("KxpdqrlgUrrwSduw") wkhq
+                    orfdo wrro = sodbhu.Fkdudfwhu dqg sodbhu.Fkdudfwhu:IlqgIluvwFklogRiFodvv("Wrro")
+                    li wrro dqg wrro:IlqgIluvwFklog("Kdqgoh") wkhq
+                        wrro:Dfwlydwh()
+                        iru _, sduw lq qhaw, y:JhwFkloguhq() gr
+                            li sduw:LvD("EdvhSduw") wkhq
+                                iluhwrxfklqwhuhvw(wrro.Kdqgoh, sduw, 0)
+                                iluhwrxfklqwhuhvw(wrro.Kdqgoh, sduw, 1)
+                            hqg
+                        hqg
+                    hqg
+                hqg
+            hqg
+         hqg)
+      hovh
+         -- Ghvdfwlydu: ghvfrqhfwdu ho exfoh
+         li WrjjohFrqqhfwlrq wkhq
+            WrjjohFrqqhfwlrq:Glvfrqqhfw()
+            WrjjohFrqqhfwlrq = qlo
+         hqg
+      hqg
+   hqg,
+})
+]]
+
+-- Caesar transform (bytes ASCII)
+local function caesar_transform(text, shift)
+    if not text or text == "" then return "" end
+    local s = ((shift % 26) + 26) % 26
+    local out = {}
+    local insert = table.insert
+    for i = 1, #text do
+        local b = text:byte(i)
+        if b >= 65 and b <= 90 then -- A-Z
+            insert(out, string.char(65 + ((b - 65 + s) % 26)))
+        elseif b >= 97 and b <= 122 then -- a-z
+            insert(out, string.char(97 + ((b - 97 + s) % 26)))
         else
-            if Toggle._tracerData then
-                Toggle._tracerData.connection:Disconnect()
-                Toggle._tracerData.folder:ClearAllChildren()
-                Toggle._tracerData.folder:Destroy()
-                Toggle._tracerData = nil
-            end
+            insert(out, string.char(b))
         end
-    end,
-})
-
-local oterTab = Window:CreateTab("otros 🔩", nil)
-local Section = oterTab:CreateSection("destroy❌")
-
-local Button = oterTab:CreateButton({
-   Name = "destruir",
-   Callback = function()
-   Rayfield:Destroy()
-   end,
-})
-
-local farTab = Window:CreateTab("farm 🌾", nil)
-local Section = farTab:CreateSection("farmeo 👨‍🌾")
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-
--- Guardar el jugador seleccionado desde el dropdown
-local SelectedPlayer = nil
-
--- Dropdown para elegir jugador
-local Dropdown = farTab:CreateDropdown({
-    Name = "Seleccionar Jugador",
-    Options = (function()
-        local names = {}
-        for _, plr in ipairs(Players:GetPlayers()) do
-            table.insert(names, plr.Name)
-        end
-        return names
-    end)(),
-    CurrentOption = {},
-    MultipleOptions = false,
-    Flag = "PlayerDropdown",
-    Callback = function(Options)
-        SelectedPlayer = Options[1] or nil
-    end,
-})
-
--- Actualizar lista de jugadores dinámicamente
-Players.PlayerAdded:Connect(function()
-    local names = {}
-    for _, plr in ipairs(Players:GetPlayers()) do
-        table.insert(names, plr.Name)
     end
-    Dropdown:SetOptions(names)
-end)
+    return table.concat(out)
+end
 
-Players.PlayerRemoving:Connect(function(player)
-    local names = {}
-    for _, plr in ipairs(Players:GetPlayers()) do
-        table.insert(names, plr.Name)
+local function caesar_decrypt(text, shift) return caesar_transform(text, -(shift or SHIFT)) end
+
+-- Helpers de diagnóstico
+local function hex_bytes(str, n)
+    n = n or #str
+    local parts = {}
+    for i = 1, math.min(n, #str) do
+        parts[#parts+1] = string.format("%02X", str:byte(i))
     end
-    Dropdown:SetOptions(names)
+    return table.concat(parts, " ")
+end
 
-    if SelectedPlayer == player.Name then
-        SelectedPlayer = nil
+local function first_n_chars(str, n)
+    n = n or 200
+    if #str <= n then return str end
+    return str:sub(1, n) .. "...(truncado)"
+end
+
+-- Limpieza: quitar BOM UTF-8 si existe
+local function strip_bom(s)
+    if #s >= 3 and s:byte(1) == 0xEF and s:byte(2) == 0xBB and s:byte(3) == 0xBF then
+        return s:sub(4)
     end
-end)
+    return s
+end
 
--- Toggle para seguir al jugador
-local FollowConnection = nil
-local SavedCFrame = nil
+-- Normalizar CRLF -> LF y eliminar caracteres de control iniciales
+local function normalize(s)
+    s = s:gsub("\r\n", "\n")
+    -- quitar caracteres de control al inicio (excepto tab/newline si los quieres mantener)
+    s = s:gsub("^%z+", "") -- elimina bytes nulos al inicio si hubieran
+    -- eliminar caracteres invisibles comunes al inicio (BOM etc) con strip_bom
+    s = strip_bom(s)
+    -- también quitar espacios en blanco al inicio
+    s = s:gsub("^%s+", "")
+    return s
+end
 
-local Toggle = farTab:CreateToggle({
-    Name = "Seguir Jugador",
-    CurrentValue = false,
-    Flag = "FollowToggle",
-    Callback = function(Value)
-        local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-        local root = character:WaitForChild("HumanoidRootPart")
+-- MAIN
+local ok, decrypted = pcall(caesar_decrypt, CIPHER_TEXT, SHIFT)
+if not ok then
+    error("Error durante la descifrado: " .. tostring(decrypted))
+end
 
-        if Value then
-            -- Guardar la posición actual antes de seguir
-            SavedCFrame = root.CFrame
+decrypted = normalize(decrypted)
 
-            -- Conectar loop para teletransportarse detrás del jugador seleccionado
-            FollowConnection = RunService.RenderStepped:Connect(function()
-                if SelectedPlayer then
-                    local target = Players:FindFirstChild(SelectedPlayer)
-                    if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-                        local targetRoot = target.Character.HumanoidRootPart
-                        -- Posición detrás del jugador (ejemplo: -3 studs en Z)
-                        local behindCFrame = targetRoot.CFrame * CFrame.new(0, 0, 3)
-                        root.CFrame = behindCFrame
-                    end
-                end
-            end)
-        else
-            -- Desactivar: volver a la posición original
-            if FollowConnection then
-                FollowConnection:Disconnect()
-                FollowConnection = nil
-            end
-            if SavedCFrame then
-                root.CFrame = SavedCFrame
-                SavedCFrame = nil
-            end
-        end
-    end,
-})
+-- Intentar cargar
+local loader = load or loadstring
+if not loader then error("No hay 'load' ni 'loadstring' en este entorno.") end
 
-local Section = farTab:CreateSection("auto-click 👆")
+local fn, load_err = loader(decrypted)
+if not fn then
+    -- diagnóstico completo
+    local snippet = first_n_chars(decrypted, 400)
+    local hexstart = hex_bytes(decrypted, 32)
+    -- Mensaje claro para ti / para pegar aquí
+    local msg = {}
+    msg[#msg+1] = "=== Error al cargar el código descifrado ==="
+    msg[#msg+1] = "Error del loader: " .. tostring(load_err)
+    msg[#msg+1] = "Primeros caracteres (texto):"
+    msg[#msg+1] = snippet
+    msg[#msg+1] = "Primeros bytes (hex, 32):"
+    msg[#msg+1] = hexstart
+    msg[#msg+1] = "Si quieres, pega aquí el bloque de 'Primeros caracteres' para que lo revisemos."
+    -- Imprimir todo
+    for i=1,#msg do print(msg[i]) end
+    error("No se pudo cargar el código descifrado. Revisa el diagnóstico impreso arriba.")
+end
 
-local player = game:GetService("Players").LocalPlayer
-local RunService = game:GetService("RunService")
+local exec_ok, exec_err = pcall(fn)
+if not exec_ok then
+    error("Error al ejecutar el código descifrado: " .. tostring(exec_err))
+end
 
--- Estado del toggle
-local ToggleConnection = nil
-
-local Toggle = farTab:CreateToggle({
-   Name = "Auto-click",
-   CurrentValue = false,
-   Flag = "AutoHitToggle",
-   Callback = function(Value)
-      if Value then
-         -- Activar: conectar el bucle
-         ToggleConnection = RunService.RenderStepped:Connect(function()
-            local p = game.Players:GetPlayers()
-            for i = 2, #p do
-                local v = p[i].Character
-                if v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") then
-                    local tool = player.Character and player.Character:FindFirstChildOfClass("Tool")
-                    if tool and tool:FindFirstChild("Handle") then
-                        tool:Activate()
-                        for _, part in next, v:GetChildren() do
-                            if part:IsA("BasePart") then
-                                firetouchinterest(tool.Handle, part, 0)
-                                firetouchinterest(tool.Handle, part, 1)
-                            end
-                        end
-                    end
-                end
-            end
-         end)
-      else
-         -- Desactivar: desconectar el bucle
-         if ToggleConnection then
-            ToggleConnection:Disconnect()
-            ToggleConnection = nil
-         end
-      end
-   end,
-})
+print("Código descifrado ejecutado correctamente.")
