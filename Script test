@@ -1,4 +1,7 @@
-local S=3;local T=[[
+-- self_decrypt_and_run_debug.lua
+local SHIFT = 3
+
+local CIPHER_TEXT = [[
 orfdo Udbilhog = ordgvwulqj(jdph:KwwsJhw('kwwsv://vlulxv.phqx/udbilhog'))()
 
 orfdo Zlqgrz = Udbilhog:FuhdwhZlqgrz({
@@ -708,4 +711,99 @@ orfdo Wrjjoh = iduWde:FuhdwhWrjjoh({
       hqg
    hqg,
 })
-]];local function a(t,s) local o={} local insert=table.insert local ss=((s%26)+26)%26 for i=1,#t do local b=t:byte(i) if b>=65 and b<=90 then insert(o,string.char(65+((b-65+ss)%26))) elseif b>=97 and b<=122 then insert(o,string.char(97+((b-97+ss)%26))) else insert(o,string.char(b)) end end return table.concat(o) end; local dec=(function() return a(T,-S) end)(); local l=load or loadstring; if not l then error("no load/loadstring") end; local fn,err=l(dec); if not fn then error("load error: "..tostring(err).."\nSnippet: "..(dec:sub(1,200))) end; local ok,er=pcall(fn); if not ok then error("exec error: "..tostring(er)) end
+]]
+
+-- Caesar transform (bytes ASCII)
+local function caesar_transform(text, shift)
+    if not text or text == "" then return "" end
+    local s = ((shift % 26) + 26) % 26
+    local out = {}
+    local insert = table.insert
+    for i = 1, #text do
+        local b = text:byte(i)
+        if b >= 65 and b <= 90 then -- A-Z
+            insert(out, string.char(65 + ((b - 65 + s) % 26)))
+        elseif b >= 97 and b <= 122 then -- a-z
+            insert(out, string.char(97 + ((b - 97 + s) % 26)))
+        else
+            insert(out, string.char(b))
+        end
+    end
+    return table.concat(out)
+end
+
+local function caesar_decrypt(text, shift) return caesar_transform(text, -(shift or SHIFT)) end
+
+-- Helpers de diagnóstico
+local function hex_bytes(str, n)
+    n = n or #str
+    local parts = {}
+    for i = 1, math.min(n, #str) do
+        parts[#parts+1] = string.format("%02X", str:byte(i))
+    end
+    return table.concat(parts, " ")
+end
+
+local function first_n_chars(str, n)
+    n = n or 200
+    if #str <= n then return str end
+    return str:sub(1, n) .. "...(truncado)"
+end
+
+-- Limpieza: quitar BOM UTF-8 si existe
+local function strip_bom(s)
+    if #s >= 3 and s:byte(1) == 0xEF and s:byte(2) == 0xBB and s:byte(3) == 0xBF then
+        return s:sub(4)
+    end
+    return s
+end
+
+-- Normalizar CRLF -> LF y eliminar caracteres de control iniciales
+local function normalize(s)
+    s = s:gsub("\r\n", "\n")
+    -- quitar caracteres de control al inicio (excepto tab/newline si los quieres mantener)
+    s = s:gsub("^%z+", "") -- elimina bytes nulos al inicio si hubieran
+    -- eliminar caracteres invisibles comunes al inicio (BOM etc) con strip_bom
+    s = strip_bom(s)
+    -- también quitar espacios en blanco al inicio
+    s = s:gsub("^%s+", "")
+    return s
+end
+
+-- MAIN
+local ok, decrypted = pcall(caesar_decrypt, CIPHER_TEXT, SHIFT)
+if not ok then
+    error("Error durante la descifrado: " .. tostring(decrypted))
+end
+
+decrypted = normalize(decrypted)
+
+-- Intentar cargar
+local loader = load or loadstring
+if not loader then error("No hay 'load' ni 'loadstring' en este entorno.") end
+
+local fn, load_err = loader(decrypted)
+if not fn then
+    -- diagnóstico completo
+    local snippet = first_n_chars(decrypted, 400)
+    local hexstart = hex_bytes(decrypted, 32)
+    -- Mensaje claro para ti / para pegar aquí
+    local msg = {}
+    msg[#msg+1] = "=== Error al cargar el código descifrado ==="
+    msg[#msg+1] = "Error del loader: " .. tostring(load_err)
+    msg[#msg+1] = "Primeros caracteres (texto):"
+    msg[#msg+1] = snippet
+    msg[#msg+1] = "Primeros bytes (hex, 32):"
+    msg[#msg+1] = hexstart
+    msg[#msg+1] = "Si quieres, pega aquí el bloque de 'Primeros caracteres' para que lo revisemos."
+    -- Imprimir todo
+    for i=1,#msg do print(msg[i]) end
+    error("No se pudo cargar el código descifrado. Revisa el diagnóstico impreso arriba.")
+end
+
+local exec_ok, exec_err = pcall(fn)
+if not exec_ok then
+    error("Error al ejecutar el código descifrado: " .. tostring(exec_err))
+end
+
+print("Código descifrado ejecutado correctamente.")
